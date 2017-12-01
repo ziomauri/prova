@@ -1,0 +1,2024 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (48,2,1158,1918) ReportTemplate "Report.erp.core.Fiscal.wrmt" 
+
+Properties
+	Begin
+		Title "Tax Settlement" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Accounting" 
+	End
+
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+FontStyles 
+	Begin
+		"AccessoryDescription"  Facename "Arial"  Size 10 Style (0,0,0,400,255,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+FormatStyles 
+	Begin
+		Money "LimitedMoney"   Len 20 Sign 1 Table "ZAEGHMPSTK,"  Precision 2;
+		Money "LimitedMoneyWithoutDecimal"   Len 20 Sign 1 Table "ZAEGHMPSTK,"  Precision 0;
+	End
+
+PageLayout "default" 
+	Begin
+		Field (0,14,67,683) Alias 330  /* w_CompNameAndAddress */ 
+			Begin
+				Style "CompanyName" 
+				Hidden  When not w_ContextualHeading ;
+				Align 2112 ;
+
+			End
+
+		Text (0,775,17,875) "Tax Number:" 
+			Begin
+				Style "CompanyName" 
+				Pen (0,0,0) Size 0;
+				Hidden  When not w_ContextualHeading or w_TaxNumber == "" ;
+			End
+
+		Field (0,878,17,1028) Alias 205  /* w_TaxNumber */ 
+			Begin
+				Style "CompanyName" 
+				Hidden  When not w_ContextualHeading ;
+				Align 2128 ;
+
+			End
+
+		Text (15,775,32,875) "Fiscal Code:" 
+			Begin
+				Style "CompanyName" 
+				Pen (0,0,0) Size 0;
+				Borders (0,0,0,0) ;
+				Hidden  When not w_ContextualHeading or w_DescriCFiscalData == "" ;
+			End
+
+		Field (15,878,32,1028) Alias 208  /* w_DescriCFiscalData */ 
+			Begin
+				Style "CompanyName" 
+				Hidden  When not w_ContextualHeading ;
+				Align 2128 ;
+
+			End
+
+		Field (30,775,72,1085) Alias 334  /* w_StrRegisterData */ 
+			Begin
+				Style "CompanyName" 
+				Hidden  When not w_ContextualHeading or not w_ContextualHeadingAdditional ;
+				Align 2128 ;
+
+			End
+
+		Field (54,6,84,1041) Alias 70  /* w_VarDescriMonth */ 
+			Begin
+				Style "ListTitle" 
+
+			End
+
+		Text (89,775,110,939) "Values expressed in:" 
+			Begin
+				Style "AccessoryDescription" 
+			End
+
+		Field (89,939,110,975) Alias 82  /* w_Symbol */ 
+			Begin
+				Style "AccessoryDescription" 
+				Align 67684 ;
+
+			End
+
+		Field (135,526,163,578) Alias 2219  /* w_FromDate */ FormatStyle "Date" 
+			Begin
+				Hidden  
+			End
+
+		Field (139,590,167,642) Alias 2220  /* w_ToDate */ FormatStyle "Date" 
+			Begin
+				Hidden  
+			End
+
+		Text (167,24,186,510) "Purchases" 
+			Begin
+				Borders (0,0,1,0) ;
+				FontStyle "SummarySubTitle" ;
+			End
+
+		Text (167,547,186,1016) "Sales" 
+			Begin
+				Borders (0,0,1,0) ;
+				FontStyle "SummarySubTitle" ;
+			End
+
+		Text (188,24,205,348) "Purchases Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Field (188,383,205,512) Alias 12  /* w_TaxAmountPurchase */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (190,546,205,870) "Sales Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Field (190,883,205,1012) Alias 21  /* w_TaxAmountSale */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (205,24,224,348) Alias 444  /* w_DescriPurchasesTaxEU */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (208,383,224,512) Alias 13  /* w_TaxAmountPurchaseEu */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (208,546,224,870) Alias 445  /* w_TaxDescriSalePurchaseEU */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (208,883,224,1012) Alias 17  /* w_TaxAmountSalePurchaseEu */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (225,546,244,870) Alias 447  /* w_TaxDescriRetailSales */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (226,383,244,512) Alias 19  /* w_TAXDeductible */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Text (228,24,244,348) "Total Purchases Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (229,883,244,1012) Alias 22  /* w_TaxAmountCorr */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (247,24,263,348) "Nondeductible Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Field (247,385,263,512) Alias 28  /* w_UndeducTax */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (248,546,263,870) "Total Sales Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (249,883,267,1012) Alias 71  /* w_CreditTax */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (263,24,283,348) Alias 88  /* w_YearDescriptionCr */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (263,546,283,870) Alias 90  /* w_YearDescriptionDeb */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (265,383,283,512) Alias 92  /* w_EsCr */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (265,882,283,1011) Alias 94  /* w_EsDeb */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (282,24,302,348) Alias 89  /* w_DescriNotEsCr */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (282,546,302,870) Alias 91  /* w_DescriNotEsDeb */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (284,383,302,512) Alias 93  /* w_NotEsCr */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (284,882,302,1011) Alias 95  /* w_NotEsDeb */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (302,24,318,295) Alias 446  /* w_DescriIInProRataTurnover */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (302,311,318,356) Alias 16  /* w_AskProRata */ FormatStyle "Percent" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (302,360,318,379) Alias 62  /* w_Perc */ 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (302,385,318,512) Alias 18  /* w_TaxProRataDeductible */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (302,546,317,870) Alias 991  /* w_DescriNotEsSPDeb */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (302,882,321,1011) Alias 995  /* w_NotEsspDeb */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (320,24,335,348) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (320,383,335,512) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2130 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (322,546,338,744) Alias 1008  /* w_DescriSales */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2128 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (322,755,338,870) Alias 1001  /* w_74Ter_Sales */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (337,546,353,744) Alias 1007  /* w_DescriPurchases */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2128 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (339,755,355,870) Alias 1002  /* w_74Ter_Purchases */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Text (354,546,370,744) "Previous credit cost" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "FiscalText" ;
+			End
+
+		Field (355,755,371,870) Alias 1003  /* w_74Ter_PrevCredit */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (371,546,387,744) Alias 1005  /* w_74Ter_DescriCredit */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2128 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (371,755,387,870) Alias 1004  /* w_74Ter_ActCredit */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "FiscalText" ;
+
+			End
+
+		Field (374,777,408,791) Alias 331  /* w_ContextualHeadingAdditional */ FormatStyle "Bool" 
+			Begin
+				Borders (0,0,0,0) ;
+				Hidden  
+			End
+
+		SqrRect (320,544,386,871) 
+			Begin
+				Transparent
+			End
+
+		Text (339,24,354,348) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (339,383,354,512) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2130 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Text (357,24,372,348) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (357,383,372,512) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2130 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (384,24,402,348) Alias 44  /* w_DescriA1 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (384,384,402,513) Alias 54  /* w_TaxAmountA1 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (386,546,405,870) Alias 52  /* w_DescriV1 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (387,882,402,1011) Alias 58  /* w_TaxAmountV1 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (401,24,419,348) Alias 45  /* w_DescriA2 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (401,384,419,513) Alias 55  /* w_TaxAmountA2 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (404,546,419,870) Alias 53  /* w_DescriV2 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (404,882,419,1011) Alias 59  /* w_TaxAmountV2 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (419,24,437,348) Alias 50  /* w_DescriA3 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (422,546,437,870) Alias 48  /* w_DescriV3 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (422,882,437,1011) Alias 60  /* w_TaxAmountV3 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (424,384,437,513) Alias 56  /* w_TaxAmountA3 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (437,24,455,348) Alias 51  /* w_DescriA4 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (437,546,455,870) Alias 49  /* w_DescriV4 */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (437,882,455,1011) Alias 61  /* w_TaxAmountV4 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (442,384,455,513) Alias 57  /* w_TaxAmountA4 */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (456,24,474,348) "Period Total Deductible Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (456,383,474,512) Alias 26  /* w_TotalAmountCreditPeriod */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Text (456,546,474,870) "Period Total Payable Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (456,883,474,1012) Alias 63  /* w_TotalAmountDebitPeriod */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Text (475,24,493,348) "Previous Period Receivable Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Field (475,383,493,512) Alias 66  /* w_CreditPrevious */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (475,546,493,870) "Previous Period Payable Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Field (475,883,493,1012) Alias 65  /* w_DebitPrevious */ FormatStyle "Money" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (494,546,509,870) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (494,882,509,1011) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2130 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (495,24,510,348) Alias 128  /* w_DescriExcludedCreditTax */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (495,383,510,512) Alias 109  /* w_ExcludedCreditTaxPrinted */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (512,24,529,348) Alias 129  /* w_DescriIncludedCreditTax */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (512,383,529,512) Alias 110  /* w_IncludedCreditTaxPrinted */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (513,546,530,870) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (513,883,530,1012) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (528,383,546,512) Alias 115  /* w_ImportedCarsTaxPaidPrinted */ FormatStyle "LimitedMoney" 
+			Begin
+				Pen (0,0,255) ;
+				Borders (0,0,0,0) ;
+				Align 2146 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (528,883,546,1012) "********************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (529,24,546,348) Alias 124  /* w_DescriImportedCarsTaxPaid */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2144 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Text (529,546,546,870) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (545,546,570,870) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2144 ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (545,883,570,1012) "********************" 
+			Begin
+				Pen (0,0,255) ;
+				Borders (0,0,0,0) ;
+				Align 2146 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Field (546,383,567,512) Alias 1116  /* w_SpecialCreditTaxPrinted */ FormatStyle "LimitedMoney" 
+			Begin
+				Pen (0,0,255) ;
+				Borders (0,0,0,0) ;
+				Align 2146 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Field (548,24,566,348) Alias 1124  /* w_DescriSpecialCreditTax */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2144 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (565,24,583,348) Alias 222  /* w_TaxAdvanceDescriLine */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (565,383,583,512) Alias 221  /* w_TaxAdvanceLine */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryAmount" ;
+
+			End
+
+		Text (565,546,583,870) "********************************************************************************" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 2144 ;
+				FontStyle "SummaryText" ;
+			End
+
+		Text (565,883,583,1012) "********************" 
+			Begin
+				Pen (0,0,255) ;
+				Borders (0,0,0,0) ;
+				Align 2146 ;
+				FontStyle "SummaryAmount" ;
+			End
+
+		Text (587,24,605,348) "Total Receivable Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (587,383,605,512) Alias 72  /* w_TotalAmountCreditIsFinal */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (587,883,605,1012) Alias 73  /* w_TotalAmountDebitIsFinal */ FormatStyle "Money" 
+			Begin
+				Borders (1,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Text (588,546,605,870) "Total Payable Tax" 
+			Begin
+				Borders (0,0,0,0) ;
+				FontStyle "SummaryTotal" ;
+			End
+
+		Field (609,24,627,348) Alias 120  /* w_DescriIntCredit */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (609,383,627,512) Alias 122  /* w_InterestsCredit */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (609,546,627,870) Alias 121  /* w_DescriIntDebit */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Field (609,883,627,1012) Alias 126  /* w_InterestsRound */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (632,376,649,512) Alias 68  /* w_TaxAmountCreditIsFinal */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (632,546,649,870) Alias 75  /* w_DescriTaxAmountDebitIsFinal */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummarySubTitle" ;
+
+			End
+
+		Field (632,883,649,1012) Alias 74  /* w_TaxAmountDebitIsFinal */ FormatStyle "LimitedMoney" 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67686 ;
+				FontStyle "SummaryTotal" ;
+
+			End
+
+		Field (633,24,649,348) Alias 67  /* w_DescriTaxAmountCreditIsFinal */ 
+			Begin
+				Borders (0,0,0,0) ;
+				Align 67684 ;
+				FontStyle "SummarySubTitle" ;
+
+			End
+
+		Field (644,22,665,1023) Alias 1000  /* w_Closure */ 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 2144 ;
+
+			End
+
+		Field (663,22,734,1023) Alias 134  /* w_DescriFree */ 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				Align 67668 ;
+				FontStyle "SummaryText" ;
+
+			End
+
+		Text (734,958,752,991) "page" 
+			Begin
+				Style "PageNumber" 
+				Hidden  When not w_ContextualHeading ;
+			End
+
+		Field (734,1000,752,1039) Alias 209  /* w_DescriYear */ 
+			Begin
+				Style "PageNumber" 
+				Hidden  When not w_ContextualHeading ;
+				Align 2128 ;
+
+			End
+
+		Field (734,1040,752,1066) Alias 210  /* w_NrPage */ FormatStyle "Long" 
+			Begin
+				Style "PageNumber" 
+				Hidden  When not w_ContextualHeading ;
+				Align 2128 ;
+
+			End
+
+		Text (738,14,756,621) "Printed with {Application Name} {Version}" 
+			Begin
+				Style "AccessoryDescription" 
+				Hidden  When ( Not IsActivated ( "ERP" , "Accounting_PL" ) ) ;
+				Special
+			End
+
+	End
+Links
+	Begin
+		LinkReport "ERP.Accounting.SalesNotExigibleTax" 
+			On w_NotEsDeb 
+			When 
+				( w_NotEsDeb <> w_AmtAsterisk ) 
+			Begin
+				Date w_FromDate = w_FromDate ;
+				Date w_ToDate = w_ToDate ;
+				Bool w_All = TRUE ;
+				Bool w_Open = FALSE ;
+				Bool w_AllSP = FALSE ;
+				Bool w_OnlySP = FALSE ;
+				Bool w_NotSP = TRUE ;
+				Bool w_AskDialog = FALSE ;
+			End
+
+		LinkReport "ERP.Accounting.SalesNotExigibleTax" 
+			On w_NotEsSPDeb 
+			When 
+				( w_NotEsSPDeb <> w_AmtAsterisk ) 
+			Begin
+				Date w_FromDate = w_FromDate ;
+				Date w_ToDate = w_ToDate ;
+				Bool w_All = TRUE ;
+				Bool w_Open = FALSE ;
+				Bool w_AllSP = FALSE ;
+				Bool w_OnlySP = TRUE ;
+				Bool w_NotSP = FALSE ;
+				Bool w_AskDialog = FALSE ;
+			End
+
+		LinkReport "ERP.Accounting.PurchasesNotExigibleTax" 
+			On w_NotEsCr 
+			When 
+				( w_NotEsCr <> w_AmtAsterisk ) 
+			Begin
+				Date w_FromDate = w_FromDate ;
+				Date w_ToDate = w_ToDate ;
+				Bool w_All = TRUE ;
+				Bool w_PayableAmount = FALSE ;
+				Bool w_AskDialog = FALSE ;
+				Bool w_ByPostDate = TRUE ;
+				Bool w_ByDocDate = FALSE ;
+			End
+
+		LinkReport "ERP.Accounting.ExigibleTaxCheck" 
+			On w_EsDeb 
+			When 
+				( w_EsDeb <> w_AmtAsterisk ) 
+			Begin
+				Integer w_Year = w_AskYear ;
+				Date w_FromDate = w_FromDate ;
+				Date w_ToDate = w_ToDate ;
+				Bool w_Sale = TRUE ;
+				Bool w_Purchase = FALSE ;
+				Bool w_TaxDetail = TRUE ;
+				Bool w_TaxSummary = TRUE ;
+				Bool w_NotExigible = FALSE ;
+				Bool w_Exigible = TRUE ;
+				Bool w_ExigibleYear = TRUE ;
+				Bool w_ExigiblePrevYear = TRUE ;
+				Bool w_ExigibleNextYear = TRUE ;
+				Bool w_AskDialog = FALSE ;
+			End
+
+		LinkReport "ERP.Accounting.ExigibleTaxCheck" 
+			On w_EsCr 
+			When 
+				( w_EsCr <> w_AmtAsterisk ) 
+			Begin
+				Integer w_Year = w_AskYear ;
+				Date w_FromDate = w_FromDate ;
+				Date w_ToDate = w_ToDate ;
+				Bool w_Sale = FALSE ;
+				Bool w_Purchase = TRUE ;
+				Bool w_TaxDetail = TRUE ;
+				Bool w_TaxSummary = TRUE ;
+				Bool w_NotExigible = FALSE ;
+				Bool w_Exigible = TRUE ;
+				Bool w_ExigibleYear = TRUE ;
+				Bool w_ExigiblePrevYear = TRUE ;
+				Bool w_ExigibleNextYear = TRUE ;
+				Bool w_AskDialog = FALSE ;
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			Money        w_TaxAmountITL [15] Alias 155  Hidden ;
+			Money        w_UndedAmountITL [15] Alias 157  Hidden ;
+			Money        w_EOYDeductITL [15] Alias 158  Hidden ;
+			Integer      w_AskEndMonth [2] Alias 4  Hidden  Input Init = Month ( AppDate ( ) )  ;
+			Integer      w_AskYear [6] Alias 5  Hidden  Input Init = Year ( AppDate ( ) )  ;
+			Integer      w_AskStartMonth [2] Alias 6  Hidden  Input Init = Month ( AppDate ( ) )  ;
+			Money        w_TaxAmount [15] Alias 10  Hidden ;
+			String       w_TaxJournal [8] Alias 11  Hidden ;
+			Money        w_TaxAmountPurchase [15] = Csum (w_TaxAmount ) Alias 12 Init = 0  ;
+			Money        w_TaxAmountPurchaseITL [15] = Csum (w_TaxAmountITL ) Alias 165  Hidden Init = 0  ;
+			Money        w_TaxAmountPurchaseEu [15] = Csum (w_TaxAmount ) Alias 13 Init = 0  ;
+			Money        w_TaxAmountPurchaseEuITL [15] = Csum (w_TaxAmountITL ) Alias 163  Hidden Init = 0  ;
+			Bool         w_IntrastatTax [1] Alias 14  Hidden ;
+			Money        w_AskAmount [15] Alias 15  Hidden  Input Init = 0  ;
+			Percent      w_AskProRata [5] Alias 16  Input Init = 0  ;
+			Money        w_TaxAmountSalePurchaseEu [15] = w_TaxAmountPurchaseEu  Alias 17 Init = 0  ;
+			Money        w_TAXDeductible [15] = w_TaxAmountPurchase + w_TaxAmountPurchaseEu  Alias 19 Init = 0  ;
+			Enum[2]       /* Tax Journal */ w_CodeTypeJournal [10] Alias 20  Hidden ;
+			Money        w_TaxAmountSale [15] = Csum (w_TaxAmount ) Alias 21 Init = 0  ;
+			Money        w_TaxAmountCorr [15] = Csum (w_TaxAmount ) Alias 22 Init = 0  ;
+			Money        w_TaxAmountSaleITL [15] = Csum (w_TaxAmountITL ) Alias 170  Hidden Init = 0  ;
+			Money        w_TaxAmountCorrITL [15] = Csum (w_TaxAmountITL ) Alias 171  Hidden Init = 0  ;
+			Bool         w_AskDebit [1] Alias 24  Hidden  Input Init = TRUE  ;
+			Money        w_NonDeductible [15] Alias 27  Hidden ;
+			Money        w_UndeducTax [15] = Csum (w_NonDeductible ) Alias 28 Init = 0  ;
+			Money        w_UndeducTaxITL [15] = Csum (w_UndedAmountITL ) Alias 161  Hidden Init = 0  ;
+			Money        w_TaxProRataDeductible [15] Alias 18 Init = 0  ;
+			Money        w_EOY_DeductibleTax [15] Alias 29  Hidden ;
+			Money        w_TaxAmountEOY [15] = Csum (w_EOY_DeductibleTax ) Alias 30  Hidden Init = 0  ;
+			Money        w_TaxAmountEOYITL [15] = Csum (w_EOYDeductITL ) Alias 162  Hidden Init = 0  ;
+			Bool         w_OthersCD [1] Alias 31  Hidden  Input Init = FALSE  ;
+			String       w_DescriCD1 [40] Alias 35  Hidden  Input Init = ""  ;
+			Bool         w_DebCred1 [1] Alias 36  Hidden  Input Init = TRUE  ;
+			Money        w_TaxAmountCD1 [15] Alias 37  Hidden  Input Init = 0  ;
+			String       w_DescriCD2 [40] Alias 38  Hidden  Input Init = ""  ;
+			Bool         w_DebCred2 [1] Alias 39  Hidden  Input Init = TRUE  ;
+			Money        w_TaxAmountCD2 [15] Alias 40  Hidden  Input Init = 0  ;
+			String       w_DescriCD3 [40] Alias 41  Hidden  Input Init = ""  ;
+			Bool         w_DebCred3 [1] Alias 42  Hidden  Input Init = TRUE  ;
+			Money        w_TaxAmountCD3 [15] Alias 43  Hidden  Input Init = 0  ;
+			String       w_DescriCD4 [40] Alias 32  Hidden  Input Init = ""  ;
+			Bool         w_DebCred4 [1] Alias 33  Hidden  Input Init = TRUE  ;
+			Money        w_TaxAmountCD4 [15] Alias 34  Hidden  Input Init = 0  ;
+			String       w_Asterisk [20] Alias 999  Hidden Init = "********************************************************************************"  ;
+			String       w_DescriA1 [20] Alias 44 Init = w_Asterisk  ;
+			String       w_DescriA2 [20] Alias 45 Init = w_Asterisk  ;
+			Integer      w_LastA [6] Alias 46  Hidden Init = 0  ;
+			Integer      w_LastV [6] Alias 47  Hidden Init = 0  ;
+			String       w_DescriA3 [20] Alias 50 Init = w_Asterisk  ;
+			String       w_DescriA4 [20] Alias 51 Init = w_Asterisk  ;
+			String       w_DescriV1 [20] Alias 52 Init = w_Asterisk  ;
+			String       w_DescriV2 [20] Alias 53 Init = w_Asterisk  ;
+			String       w_DescriV3 [20] Alias 48 Init = w_Asterisk  ;
+			String       w_DescriV4 [20] Alias 49 Init = w_Asterisk  ;
+			Money        w_AmtAsterisk [15] Alias 199  Hidden Init = 100000000000000000000000000000  ;
+			Money        w_TaxAmountA1 [15] = w_AmtAsterisk  Alias 54 Init = 0  ;
+			Money        w_TaxAmountA2 [15] = w_AmtAsterisk  Alias 55 Init = 0  ;
+			Money        w_TaxAmountA3 [15] = w_AmtAsterisk  Alias 56 Init = 0  ;
+			Money        w_TaxAmountA4 [15] = w_AmtAsterisk  Alias 57 Init = 0  ;
+			Money        w_TaxAmountV1 [15] = w_AmtAsterisk  Alias 58 Init = 0  ;
+			Money        w_TaxAmountV2 [15] = w_AmtAsterisk  Alias 59 Init = 0  ;
+			Money        w_TaxAmountV3 [15] = w_AmtAsterisk  Alias 60 Init = 0  ;
+			Money        w_TaxAmountV4 [15] = w_AmtAsterisk  Alias 61 Init = 0  ;
+			String       w_Perc [20] = "%"  Alias 62 ;
+			Money        w_DebitPrevious [15] Alias 65 ;
+			Money        w_CreditPrevious [15] Alias 66 ;
+			String       w_DescriTaxAmountCreditIsFinal [40] = Localize ( "Receivable Tax" )  Alias 67 Init = w_Asterisk  ;
+			Money        w_CreditTax [15] = w_TaxAmountSale + w_TaxAmountCorr  Alias 71 ;
+			Money        w_TotalAmountCreditPeriod [15] Alias 26 ;
+			Money        w_TotalAmountDebitPeriod [15] = w_CreditTax + w_TaxAmountV1 + w_TaxAmountV2 + w_TaxAmountV3 + w_TaxAmountV4  Alias 63 ;
+			String       w_TaxAdvanceDescri [40] Alias 219  Hidden  Input Init = ""  ;
+			Money        w_TaxAdvance [15] Alias 220  Hidden  Input Init = 0  ;
+			Money        w_TaxAdvanceLine [15] = w_AmtAsterisk  Alias 221 Init = 0  ;
+			String       w_TaxAdvanceDescriLine [20] Alias 222 Init = w_Asterisk  ;
+			Money        w_ExcludedCreditTax [15] Alias 1109  Hidden Init = 0  ;
+			Money        w_ExcludedCreditTaxPrinted [15] Alias 109 Init = 0  ;
+			Money        w_IncludedCreditTaxPrinted [15] Alias 110 Init = 0  ;
+			Money        w_IncludedCreditTax [15] Alias 1110  Hidden Init = 0  ;
+			Money        w_ImportedCarsTaxPaidPrinted [15] Alias 115 Init = 0  ;
+			Money        w_ImportedCarsTaxPaid [15] Alias 1115  Hidden Init = 0  ;
+			Money        w_SpecialCreditTaxPrinted [15] Alias 1116 Init = 0  ;
+			Money        w_SpecialCreditTax [15] Alias 1117  Hidden Init = 0  ;
+			Money        w_TotalAmountCreditIsFinal [15] = w_TotalAmountCreditPeriod + w_CreditPrevious + w_TaxAdvance - w_ExcludedCreditTax + w_IncludedCreditTax + w_ImportedCarsTaxPaid + w_SpecialCreditTax  Alias 72 Init = 0  ;
+			Money        w_TotalAmountDebitIsFinal [15] = w_TotalAmountDebitPeriod + w_DebitPrevious  Alias 73 Init = 0  ;
+			Money        w_TaxAmountCreditIsFinal [15] = w_TotalAmountCreditIsFinal - w_TotalAmountDebitIsFinal  Alias 68 Init = 0  ;
+			String       w_VarDescriMonth [20] Alias 70 ;
+			Money        w_TaxAmountDebitIsFinal [30] = - w_TaxAmountCreditIsFinal  Alias 74 ;
+			String       w_DescriTaxAmountDebitIsFinal [20] = Localize ( "Payable Tax" )  Alias 75 Init = w_Asterisk  ;
+			Bool         w_VarResult [1] Alias 76  Hidden ;
+			Integer      w_VarStartMonth [6] Alias 78  Hidden  Input ;
+			Integer      w_VarEndMonth [6] Alias 79  Hidden  Input ;
+			String       w_ConstTitle [32] Alias 80  Hidden Init = Localize ( "Tax Settlement" ) + " - "  ;
+			Money        w_SaleExigAmount [15] Alias 9981  Hidden  Input Init = 0  ;
+			Money        w_SaleNonExigAmount [15] Alias 9982  Hidden  Input Init = 0  ;
+			Money        w_SaleSplitPaymentAmount [15] Alias 9882  Hidden  Input Init = 0  ;
+			Money        w_PurchaseExigAmount [15] Alias 9883  Hidden  Input Init = 0  ;
+			Money        w_PurchaseNonExigAmount [15] Alias 9884  Hidden  Input Init = 0  ;
+			String       w_YearDescriptionCr [20] Alias 88 Init = w_Asterisk  ;
+			String       w_DescriNotEsCr [20] Alias 89 Init = w_Asterisk  ;
+			String       w_YearDescriptionDeb [20] Alias 90 Init = w_Asterisk  ;
+			String       w_DescriNotEsDeb [20] Alias 91 Init = w_Asterisk  ;
+			String       w_DescriNotEsSPDeb [20] Alias 991 Init = w_Asterisk  ;
+			Money        w_EsCr [15] Alias 92 Init = w_AmtAsterisk  ;
+			Money        w_NotEsCr [15] Alias 93 Init = w_AmtAsterisk  ;
+			Money        w_EsDeb [15] Alias 94 Init = w_AmtAsterisk  ;
+			Money        w_NotEsDeb [15] Alias 95 Init = w_AmtAsterisk  ;
+			Money        w_NotEsspDeb [15] Alias 995 Init = w_AmtAsterisk  ;
+			String       w_YearDescription [20] Alias 96  Hidden Init = Localize ( "Payable Tax for the Period" )  ;
+			String       w_DescriNotEs [20] Alias 97  Hidden Init = Localize ( "Irrecoverable Tax Documents" )  ;
+			String       w_DomesticCurrency [8] Alias 98  Hidden ;
+			String       w_Symbol [4] Alias 82 ;
+			String       w_BaseCurrSymbol [4] Alias 99  Hidden ;
+			String       w_SblDomesticCurrency [4] Alias 100  Hidden ;
+			Money        w_TaxAmountPurchaseExcludedFromProRata [15] = Csum (w_TaxAmount ) Alias 102  Hidden Init = 0  ;
+			Money        w_TaxAmountPurchaseExcludedFromProRataITL [15] = Csum (w_TaxAmountITL ) Alias 169  Hidden Init = 0  ;
+			Money        w_TaxAmountEOYExcludedFromProRata [15] = Csum (w_EOY_DeductibleTax ) Alias 103  Hidden Init = 0  ;
+			Money        w_TaxAmountEOYExcludedFromProRataITL [15] = Csum (w_EOYDeductITL ) Alias 168  Hidden Init = 0  ;
+			Money        w_UndeducTaxExcludedFromProRata [15] = Csum (w_NonDeductible ) Alias 104  Hidden Init = 0  ;
+			Money        w_UndeducTaxExcludedFromProRataITL [15] = Csum (w_UndedAmountITL ) Alias 167  Hidden Init = 0  ;
+			Bool         w_ExcludedFromProRata [1] Alias 105  Hidden ;
+			Money        w_UndeducTaxProRata [15] = Csum (w_NonDeductible ) Alias 106  Hidden Init = 0  ;
+			Money        w_UndeducTaxProRataITL [15] = Csum (w_UndedAmountITL ) Alias 166  Hidden Init = 0  ;
+			Money        w_UndeducTaxIntraProRata [15] = Csum (w_NonDeductible ) Alias 107  Hidden Init = 0  ;
+			Money        w_UndeducTaxIntraProRataITL [15] = Csum (w_UndedAmountITL ) Alias 164  Hidden Init = 0  ;
+			Percent      w_Interests [6,2] Alias 112  Hidden  Input Init = 0  ;
+			String       w_Eurocurrency [8] Alias 116  Hidden ;
+			String       w_BaseCurr [8] Alias 117  Hidden ;
+			String       w_DivTAX [8] Alias 118  Hidden ;
+			Bool         w_TotalAmountACredit [1] Alias 119  Hidden ;
+			String       w_DescriIntCredit [20] Alias 120 Init = w_Asterisk  ;
+			String       w_DescriIntDebit [20] Alias 121 Init = w_Asterisk  ;
+			Money        w_InterestsCredit [15] Alias 122 Init = w_AmtAsterisk  ;
+			Money        w_Diff [15] Alias 114  Hidden Init = 0  ;
+			String       w_DescriImportedCarsTaxPaid [20] Alias 124 Init = w_Asterisk  ;
+			String       w_DescriSpecialCreditTax [20] Alias 1124 Init = w_Asterisk  ;
+			Bool         w_Quarterly [1] Alias 125  Hidden ;
+			Money        w_InterestsRound [15] Alias 126 Init = w_AmtAsterisk  ;
+			String       w_DescriExcludedCreditTax [20] Alias 128 Init = w_Asterisk  ;
+			String       w_DescriIncludedCreditTax [20] Alias 129 Init = w_Asterisk  ;
+			String       w_InLire [20] Alias 131  Hidden Init = " " + Localize ( "in Thousands ITL" )  ;
+			String       w_InEuro [20] Alias 132  Hidden Init = " " + Localize ( "in EUR Units" )  ;
+			String       w_IntTrim [20] Alias 133  Hidden Init = Localize ( "Quarterly Interest" )  ;
+			String       w_DescriFree [20] Alias 134  Input Init = ""  ;
+			Bool         w_AskDefPrint [1] Alias 234  Hidden  Input Init = 0  ;
+			String       w_CodDISTR [4] Alias 135  Hidden Init = ERP.Company.Dbl.DistributionTaxCode ( )  ;
+			Bool         w_Convert [1] Alias 152  Hidden Init = FALSE  ;
+			Date         w_EuroConversionDate [8] Alias 153  Hidden ;
+			Integer      w_MonthRR [5] Alias 159  Hidden ;
+			Integer      w_MonthRRTAX [5] Alias 160  Hidden ;
+			String       w_Closure [20] Alias 1000 Init = "______________________________________________________________________________________________________________________________________________________________________________"  ;
+			Bool         w_ContextualHeading [2] Alias 201  Hidden Init = FALSE  ;
+			Integer      w_NoPrefix [5] Alias 202  Hidden  Input Init = w_AskYear  ;
+			String       w_CompanyName [64] Alias 204  Hidden ;
+			String       w_TaxNumber [64] Alias 205 ;
+			String       w_TaxIdNumber [12] Alias 206  Hidden ;
+			String       w_DescriCFiscalData [20] Alias 208 ;
+			String       w_DescriYear [5] Alias 209 Init = ""  ;
+			Long         w_NrPage [10] Alias 210  Input Init = 0  ;
+			Long         w_CurrMng [10] Alias 212  Hidden Init = ERP.Currencies.Components.CurrencyManager_Create ( )  ;
+			Bool         w_DisposeOk [1] Alias 213  Hidden ;
+			String       w_DescriPurchasesTaxEU [20] Alias 444 Init = Localize ( "EU Purchases Tax" )  ;
+			String       w_TaxDescriSalePurchaseEU [20] Alias 445 Init = Localize ( "EU Purchases Tax" )  ;
+			String       w_DescriIInProRataTurnover [20] Alias 446 Init = Localize ( "Deductible Tax by Pro-rata (Temporary)" )  ;
+			String       w_TaxDescriRetailSales [20] Alias 447 Init = Localize ( "Retail Sales Tax" )  ;
+			String       w_TaxOffice [32] Alias 214  Hidden ;
+			Long         w_Count Alias 215  Hidden  Input Init = 0  ;
+			String       w_TaxSummaryJournal [8] Alias 216  Hidden ;
+			Bool         w_TaxSummaryNumbering [1] Alias 217  Hidden ;
+			Money        w_74Ter_Sales [23] Alias 1001 ;
+			Money        w_74Ter_Purchases [23] Alias 1002 ;
+			Money        w_74Ter_PrevCredit [23] Alias 1003 ;
+			Money        w_74Ter_ActCredit [23] Alias 1004 ;
+			String       w_74Ter_DescriCredit [23] Alias 1005 ;
+			Money        w_74Ter_GrossMargin [23] Alias 1006  Hidden ;
+			String       w_DescriPurchases [32] Alias 1007 ;
+			String       w_DescriSales [32] Alias 1008 ;
+			Bool         w_Travel [1] Alias 1009  Hidden ;
+			Bool         w_Temporary [1] Alias 218  Hidden ;
+			Date         w_FromDate [8] Alias 2219  Input ;
+			Date         w_ToDate [8] Alias 2220  Input ;
+			Bool         w_SelWithinDate [1] Alias 937  Hidden ;
+			Date         w_WithinDate [8] Alias 938  Hidden ;
+			String       w_FederalState [15] Alias 320  Hidden ;
+			String       w_Address2 [15] Alias 321  Hidden ;
+			String       w_District [15] Alias 322  Hidden ;
+			String       w_StreetNo [10] Alias 323  Hidden ;
+			String       w_Address [64] Alias 324  Hidden ;
+			String       w_Zipcode [7] Alias 325  Hidden ;
+			String       w_City [32] Alias 326  Hidden ;
+			String       w_County [3] Alias 327  Hidden ;
+			String       w_Status [16] Alias 328  Hidden ;
+			String       w_Isocountrycode [2] Alias 329  Hidden ;
+			String       w_CompNameAndAddress [74] Alias 330 Init = ""  ;
+			Bool         w_ContextualHeadingAdditional [1] Alias 331 ;
+			String       w_ChambOfCommArea [20] Alias 332  Hidden ;
+			String       w_ChambOfCommRegistrNo [20] Alias 333  Hidden ;
+			String       w_StrRegisterData [20] Alias 334 ;
+			Money        w_MinTaxPayable [23] Alias 339 ;
+			Money        w_CalcDebitTax [23] Alias 340  Hidden Init = 0  ;
+			Money        w_CalcCreditTax [23] Alias 341  Hidden Init = 0  ;
+			Money        w_CalcCreditPrevious [23] Alias 342  Hidden Init = 0  ;
+			Money        w_CalcCreditPreviousYear [23] Alias 343  Hidden Init = 0  ;
+			Bool         w_TravelAgencyTaxSettlementByMonth [2] Alias 345 Hidden ;
+		End
+
+		Rules
+			From MA_Company 
+			Select  Not NULL 
+				CompanyName          Into w_CompanyName ,
+				TaxIdNumber          Into w_TaxIdNumber ,
+				TaxOffice            Into w_TaxOffice ,
+				FiscalCode           Into w_DescriCFiscalData ,
+				Address              Into w_Address ,
+				ZIPCode              Into w_Zipcode ,
+				City                 Into w_City ,
+				County               Into w_County ,
+				Country              Into w_Status ,
+				ISOCountryCode       Into w_Isocountrycode ,
+				FederalState         Into w_FederalState ,
+				Address2             Into w_Address2 ,
+				District             Into w_District ,
+				StreetNo             Into w_StreetNo ,
+				ChambOfCommArea      Into w_ChambOfCommArea ,
+				ChambOfCommRegistrNo Into w_ChambOfCommRegistrNo ;
+
+			From MA_AccountingParameters 
+			Select 
+				MinTaxPayable        Into w_MinTaxPayable ,
+				ContextualHeadingAdditional Into w_ContextualHeadingAdditional ,
+				TaxSummaryJournal    Into w_TaxSummaryJournal ,
+				TaxSummaryNumbering  Into w_TaxSummaryNumbering ;
+
+			If ( w_ContextualHeading And w_ContextualHeadingAdditional ) 
+				Then w_CompNameAndAddress = w_CompanyName + CHR ( 13 ) + CHR ( 10 ) + w_Address + ( w_StreetNo == "" ? "" : " " ) + w_StreetNo + ( w_Address2 == "" ? "" : " " ) + w_Address2 + ( w_District == "" ? "" : " " ) 
+				+ w_District + ( w_City == "" ? "" : " " ) + w_City + ( w_County == "" ? "" : " " ) + w_FederalState + ( w_FederalState == "" ? "" : " " ) + w_County + ( w_Status == "" ? "" : " " ) + w_Status  
+				Else w_CompNameAndAddress = w_CompanyName  ;
+
+			If ( w_ContextualHeading And w_ContextualHeadingAdditional And ( w_ChambOfCommRegistrNo <> "" Or w_ChambOfCommArea <> "" ) ) 
+				Then w_StrRegisterData = Localize ( "Register Data:" ) + " " + w_ChambOfCommRegistrNo + " " + w_ChambOfCommArea  ;
+
+			If ( IsActivated ( "ERP" , "TaxIdWithTaxOffice" ) ) 
+				Then w_TaxNumber = w_TaxOffice + " " + w_TaxIdNumber  
+				Else w_TaxNumber = w_TaxIdNumber  ;
+
+			From MA_CurrencyParameters 
+			Select 
+				EuroConversionDate   Into w_EuroConversionDate ,
+				EuroCurrency         Into w_Eurocurrency ,
+				Currency             Into w_BaseCurr ,
+				DomesticCurrency     Into w_DomesticCurrency ,
+				Symbol               Into w_BaseCurrSymbol ;
+
+			From MA_Currencies 
+			Select 
+				Symbol               Into w_SblDomesticCurrency 
+			Where MA_Currencies.Currency == w_DomesticCurrency  ;
+
+			If ( ERP.Currencies.Dbl.IsYearBeforeEuro ( Date ( 1 , w_VarEndMonth , w_AskYear ) ) ) 
+				Then w_Symbol = w_SblDomesticCurrency  
+				Else w_Symbol = w_BaseCurrSymbol  ;
+
+			If ( ERP.Currencies.Dbl.IsYearBeforeEuro ( Date ( 1 , w_VarEndMonth , w_AskYear ) ) ) 
+				Then w_DivTAX = w_DomesticCurrency  
+				Else w_DivTAX = w_BaseCurr  ;
+
+			From MA_TaxJournals 
+			Select  Not NULL 
+				TaxJournal           Into w_TaxJournal ,
+				CodeType             Into w_CodeTypeJournal ,
+				ExcludedFromProRata  Into w_ExcludedFromProRata 
+			Where ( 
+				( MA_TaxJournals.CodeType == { 2 : 0 } ) or 
+				( MA_TaxJournals.CodeType == { 2 : 1 } ) or 
+				( MA_TaxJournals.CodeType == { 2 : 2 } ) or 
+				( MA_TaxJournals.CodeType == { 2 : 3 } ) 
+				) And MA_TaxJournals.ExcludedFromVAT == FALSE  
+			Order By  MA_TaxJournals.CodeType ;
+
+			From MA_TaxJournalSummaries 
+			Select 
+				BalanceMonth         Into w_MonthRR ,
+				TaxAmount            Into w_TaxAmount ,
+				IntrastatTax         Into w_IntrastatTax ,
+				UndeductibleAmount   Into w_NonDeductible ,
+				EOYDeductible        Into w_EOY_DeductibleTax 
+			Where w_TaxJournal == MA_TaxJournalSummaries.TaxJournal And 
+				MA_TaxJournalSummaries.BalanceMonth >= w_VarStartMonth And 
+				MA_TaxJournalSummaries.BalanceMonth <= w_VarEndMonth And 
+				MA_TaxJournalSummaries.BalanceYear == w_AskYear And 
+				MA_TaxJournalSummaries.TaxCode != w_CodDISTR And 
+				MA_TaxJournalSummaries.Temporary == w_Temporary  
+			Order By  MA_TaxJournalSummaries.TaxJournal, MA_TaxJournalSummaries.BalanceYear, MA_TaxJournalSummaries.TaxCode, MA_TaxJournalSummaries.IntrastatTax ;
+
+			If w_AskDebit 
+				Then w_DebitPrevious = w_AskAmount  ;
+
+			If Not w_AskDebit 
+				Then w_CreditPrevious = w_AskAmount  ;
+
+			If ( w_MonthRR IS NULL ) 
+				Then w_MonthRRTAX = 12  
+				Else w_MonthRRTAX = w_MonthRR  ;
+
+			If ( ERP.Currencies.Dbl.IsCompanyInEuro ( ) And 
+			( w_AskYear == Year ( w_EuroConversionDate ) ) And 
+			( w_VarStartMonth < Month ( w_EuroConversionDate ) ) And 
+			( w_VarEndMonth >= Month ( w_EuroConversionDate ) ) And 
+			( w_MonthRRTAX < Month ( w_EuroConversionDate ) ) ) 
+				Then w_Convert = TRUE  
+				Else w_Convert = FALSE  ;
+
+			If ( w_Convert ) 
+				Then w_TaxAmountITL = w_TaxAmount  
+				Else w_TaxAmountITL = 0  ;
+
+			If ( w_Convert ) 
+				Then w_UndedAmountITL = w_NonDeductible  
+				Else w_UndedAmountITL = 0  ;
+
+			If ( w_Convert ) 
+				Then w_EOYDeductITL = w_EOY_DeductibleTax  
+				Else w_EOYDeductITL = 0  ;
+		End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						If ( w_ContextualHeading ) 
+							Then Call w_Heading ;
+					End
+				After 
+					Begin
+						w_NrPage = w_NrPage + 1  ;
+					End
+
+			Report : Do
+				Always 
+					Begin
+						If ( w_Travel ) 
+							Then 
+								Begin
+									w_DescriPurchases = Localize ( "Art.74Ter - EU Purchases" )  ;
+									w_DescriSales = Localize ( "Art.74Ter - EU Sales" )  ;
+								End 
+							Else 
+								Begin
+									w_DescriPurchases = Localize ( "Margin Purchases" )  ;
+									w_DescriSales = Localize ( "Margin Sales" )  ;
+								End ;
+						If ( w_TaxAmountITL <> 0 ) 
+							Then w_TaxAmount = w_TaxAmount - w_TaxAmountITL  ;
+						If ( w_EOYDeductITL <> 0 ) 
+							Then w_EOY_DeductibleTax = w_EOY_DeductibleTax - w_EOYDeductITL  ;
+						If ( w_UndedAmountITL <> 0 ) 
+							Then w_NonDeductible = w_NonDeductible - w_UndedAmountITL  ;
+						If ( w_CodeTypeJournal == { 2 : 0 } ) 
+							Then 
+								Begin
+									Eval w_UndeducTax ;
+									Eval w_TaxAmountEOY ;
+									Eval w_UndeducTaxITL ;
+									Eval w_TaxAmountEOYITL ;
+									If ( w_IntrastatTax IS NULL ) 
+										Then w_IntrastatTax = TRUE  ;
+									If ( w_IntrastatTax ) 
+										Then 
+											Begin
+												Eval w_TaxAmountPurchaseEu ;
+												Eval w_UndeducTaxIntraProRata ;
+												Eval w_TaxAmountPurchaseEuITL ;
+												Eval w_UndeducTaxIntraProRataITL ;
+											End 
+										Else 
+											Begin
+												Eval w_TaxAmountPurchase ;
+												Eval w_UndeducTaxProRata ;
+												Eval w_TaxAmountPurchaseITL ;
+												Eval w_UndeducTaxProRataITL ;
+											End ;
+									If ( w_ExcludedFromProRata ) 
+										Then 
+											Begin
+												Eval w_UndeducTaxExcludedFromProRata ;
+												Eval w_TaxAmountEOYExcludedFromProRata ;
+												Eval w_TaxAmountPurchaseExcludedFromProRata ;
+												Eval w_UndeducTaxExcludedFromProRataITL ;
+												Eval w_TaxAmountEOYExcludedFromProRataITL ;
+												Eval w_TaxAmountPurchaseExcludedFromProRataITL ;
+											End ;
+								End ;
+						If ( w_CodeTypeJournal == { 2 : 1 } ) 
+							Then 
+								Begin
+									Eval w_TaxAmountSale ;
+									Eval w_TaxAmountSaleITL ;
+								End ;
+						If ( ( w_CodeTypeJournal == { 2 : 2 } ) || 
+						( w_CodeTypeJournal == { 2 : 3 } ) ) 
+							Then 
+								Begin
+									Eval w_TaxAmountCorr ;
+									Eval w_TaxAmountCorrITL ;
+								End ;
+					End
+				Before 
+					Begin
+						Do Woorm.UpdateOutputParametersEvenIfReportDoesNotFetchRecords ( )  ;
+						If ( Not ( IsActivated ( "ERP" , "ProRata" ) ) ) 
+							Then 
+								Begin
+									w_AskProRata = 100  ;
+									w_DescriIInProRataTurnover = w_Asterisk  ;
+								End ;
+						w_Quarterly = ERP.Company.Dbl.QuarterlyTaxSettlement ( w_AskYear )  ;
+						If w_Quarterly 
+							Then 
+								Begin
+									w_VarStartMonth = 3 * w_AskStartMonth - 2  ;
+									w_VarEndMonth = 3 * w_AskEndMonth  ;
+								End 
+							Else 
+								Begin
+									w_VarStartMonth = w_AskStartMonth  ;
+									w_VarEndMonth = w_AskEndMonth  ;
+								End ;
+						w_FromDate = Date ( 1 , w_VarStartMonth , w_AskYear )  ;
+						w_ToDate = w_Temporary And w_SelWithinDate ? w_WithinDate : LastMonthDay ( Date ( 1 , w_VarEndMonth , w_AskYear ) )  ;
+						If ( w_NoPrefix == 0 ) 
+							Then w_DescriYear = ""  ;
+							Else w_DescriYear = Format ( w_NoPrefix ) + "/"  ;
+						If ( w_SaleExigAmount <> 0 ) 
+							Then 
+								Begin
+									w_YearDescriptionDeb = Localize ( "Sales Exigible Tax" )  ;
+									w_EsDeb = w_SaleExigAmount  ;
+								End ;
+						If ( w_PurchaseExigAmount <> 0 ) 
+							Then 
+								Begin
+									w_YearDescriptionCr = Localize ( "Purchases Exigible Tax" )  ;
+									w_EsCr = w_PurchaseExigAmount  ;
+								End ;
+						If ( w_SaleNonExigAmount <> 0 ) 
+							Then 
+								Begin
+									w_DescriNotEsDeb = Localize ( "Sales Not Exigible Tax" )  ;
+									w_NotEsDeb = w_SaleNonExigAmount  ;
+								End ;
+						If ( w_SaleSplitPaymentAmount <> 0 ) 
+							Then 
+								Begin
+									w_DescriNotEsSPDeb = Localize ( "Sales Split Payment Tax" )  ;
+									w_NotEsspDeb = w_SaleSplitPaymentAmount  ;
+								End ;
+						If ( w_PurchaseNonExigAmount <> 0 ) 
+							Then 
+								Begin
+									w_DescriNotEsCr = Localize ( "Purchases Not Exigible Tax" )  ;
+									w_NotEsCr = w_PurchaseNonExigAmount  ;
+								End ;
+						If ( w_TaxAdvance <> 0 ) 
+							Then 
+								Begin
+									w_TaxAdvanceDescriLine = w_TaxAdvanceDescri  ;
+									w_TaxAdvanceLine = w_TaxAdvance  ;
+								End ;
+						If Not w_DebCred1 And ( w_TaxAmountCD1 <> 0 ) 
+							Then 
+								Begin
+									w_DescriA1 = w_DescriCD1  ;
+									w_TaxAmountA1 = w_TaxAmountCD1  ;
+									w_LastA = 1  ;
+								End ;
+						If Not w_DebCred2 And ( w_TaxAmountCD2 <> 0 ) 
+							Then 
+								Begin
+									If w_LastA == 1 
+										Then 
+											Begin
+												w_DescriA2 = w_DescriCD2  ;
+												w_TaxAmountA2 = w_TaxAmountCD2  ;
+											End 
+										Else 
+											Begin
+												w_DescriA1 = w_DescriCD2  ;
+												w_TaxAmountA1 = w_TaxAmountCD2  ;
+											End ;
+									w_LastA = w_LastA + 1  ;
+								End ;
+						If Not w_DebCred3 And ( w_TaxAmountCD3 <> 0 ) 
+							Then 
+								Begin
+									If w_LastA == 2 
+										Then 
+											Begin
+												w_DescriA3 = w_DescriCD3  ;
+												w_TaxAmountA3 = w_TaxAmountCD3  ;
+											End Else If w_LastA == 1 
+											Then 
+												Begin
+													w_DescriA2 = w_DescriCD3  ;
+													w_TaxAmountA2 = w_TaxAmountCD3  ;
+												End 
+											Else 
+												Begin
+													w_DescriA1 = w_DescriCD3  ;
+													w_TaxAmountA1 = w_TaxAmountCD3  ;
+												End ;
+									w_LastA = w_LastA + 1  ;
+								End ;
+						If Not w_DebCred4 And ( w_TaxAmountCD4 <> 0 ) 
+							Then 
+								Begin
+									If w_LastA == 3 
+										Then 
+											Begin
+												w_DescriA4 = w_DescriCD4  ;
+												w_TaxAmountA4 = w_TaxAmountCD4  ;
+											End Else If w_LastA == 2 
+											Then 
+												Begin
+													w_DescriA3 = w_DescriCD4  ;
+													w_TaxAmountA3 = w_TaxAmountCD4  ;
+												End Else If w_LastA == 1 
+												Then 
+													Begin
+														w_DescriA2 = w_DescriCD4  ;
+														w_TaxAmountA2 = w_TaxAmountCD4  ;
+													End 
+												Else 
+													Begin
+														w_DescriA1 = w_DescriCD4  ;
+														w_TaxAmountA1 = w_TaxAmountCD4  ;
+													End ;
+								End ;
+						If w_DebCred1 And w_DescriCD1 <> "" 
+							Then /* IVA a debito per viaggi o margine. Stampo anche se e' a zero */
+
+								Begin
+									w_DescriV1 = w_DescriCD1  ;
+									w_TaxAmountV1 = w_TaxAmountCD1  ;
+									w_LastV = 1  ;
+								End ;
+						If w_DebCred2 And ( w_TaxAmountCD2 <> 0 ) 
+							Then 
+								Begin
+									If w_LastV == 1 
+										Then 
+											Begin
+												w_DescriV2 = w_DescriCD2  ;
+												w_TaxAmountV2 = w_TaxAmountCD2  ;
+											End 
+										Else 
+											Begin
+												w_DescriV1 = w_DescriCD2  ;
+												w_TaxAmountV1 = w_TaxAmountCD2  ;
+											End ;
+									w_LastV = w_LastV + 1  ;
+								End ;
+						If w_DebCred3 And ( w_TaxAmountCD3 <> 0 ) 
+							Then 
+								Begin
+									If w_LastV == 2 
+										Then 
+											Begin
+												w_DescriV3 = w_DescriCD3  ;
+												w_TaxAmountV3 = w_TaxAmountCD3  ;
+											End Else If w_LastV == 1 
+											Then 
+												Begin
+													w_DescriV2 = w_DescriCD3  ;
+													w_TaxAmountV2 = w_TaxAmountCD3  ;
+												End 
+											Else 
+												Begin
+													w_DescriV1 = w_DescriCD3  ;
+													w_TaxAmountV1 = w_TaxAmountCD3  ;
+												End ;
+									w_LastV = w_LastV + 1  ;
+								End ;
+						If w_DebCred4 And ( w_TaxAmountCD4 <> 0 ) 
+							Then 
+								Begin
+									If w_LastV == 3 
+										Then 
+											Begin
+												w_DescriV4 = w_DescriCD4  ;
+												w_TaxAmountV4 = w_TaxAmountCD4  ;
+											End Else If w_LastV == 2 
+											Then 
+												Begin
+													w_DescriV3 = w_DescriCD4  ;
+													w_TaxAmountV3 = w_TaxAmountCD4  ;
+												End Else If w_LastV == 1 
+												Then 
+													Begin
+														w_DescriV2 = w_DescriCD4  ;
+														w_TaxAmountV2 = w_TaxAmountCD4  ;
+													End 
+												Else 
+													Begin
+														w_DescriV1 = w_DescriCD4  ;
+														w_TaxAmountV1 = w_TaxAmountCD4  ;
+													End ;
+								End ;
+						Call w_CalculateDescriMonth ;
+					End
+				After 
+					Begin
+						If ( w_ContextualHeading ) 
+							Then Call w_Heading ;
+						If ( w_UndeducTaxITL <> 0 ) 
+							Then w_UndeducTax = w_UndeducTax + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_UndeducTaxITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountEOYITL <> 0 ) 
+							Then w_TaxAmountEOY = w_TaxAmountEOY + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountEOYITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountPurchaseEuITL <> 0 ) 
+							Then w_TaxAmountPurchaseEu = w_TaxAmountPurchaseEu + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountPurchaseEuITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_UndeducTaxIntraProRataITL <> 0 ) 
+							Then w_UndeducTaxIntraProRata = w_UndeducTaxIntraProRata + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_UndeducTaxIntraProRataITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountPurchaseITL <> 0 ) 
+							Then w_TaxAmountPurchase = w_TaxAmountPurchase + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountPurchaseITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_UndeducTaxProRataITL <> 0 ) 
+							Then w_UndeducTaxProRata = w_UndeducTaxProRata + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_UndeducTaxProRataITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_UndeducTaxExcludedFromProRataITL <> 0 ) 
+							Then w_UndeducTaxExcludedFromProRata = w_UndeducTaxExcludedFromProRata + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_UndeducTaxExcludedFromProRataITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountEOYExcludedFromProRataITL <> 0 ) 
+							Then w_TaxAmountEOYExcludedFromProRata = w_TaxAmountEOYExcludedFromProRata + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountEOYExcludedFromProRataITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountPurchaseExcludedFromProRataITL <> 0 ) 
+							Then w_TaxAmountPurchaseExcludedFromProRata = w_TaxAmountPurchaseExcludedFromProRata + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountPurchaseExcludedFromProRataITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountSaleITL <> 0 ) 
+							Then w_TaxAmountSale = w_TaxAmountSale + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountSaleITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						If ( w_TaxAmountCorrITL <> 0 ) 
+							Then w_TaxAmountCorr = w_TaxAmountCorr + ERP.Currencies.Components.CurrencyManager_ConvertWithActualFixing ( w_CurrMng , w_DomesticCurrency , w_TaxAmountCorrITL , w_EuroConversionDate , w_Eurocurrency , "" )  ;
+						Call w_CalculateDescriMonth ;
+						Eval w_TAXDeductible ;
+						Eval w_TaxAmountSale ;
+						Eval w_TaxAmountCorr ;
+						Eval w_CreditTax ;
+						Eval w_Perc ;
+						If ( w_VarStartMonth == 1 ) and ( w_VarEndMonth == 12 ) 
+							Then 
+								Begin
+									w_TaxProRataDeductible = ERP.Currencies.Components.CurrencyManager_TaxRounding ( w_CurrMng , ( ( w_TaxAmountPurchase + w_TaxAmountPurchaseEu - w_UndeducTaxProRata - w_UndeducTaxIntraProRata + w_PurchaseExigAmount - w_PurchaseNonExigAmount ) 
+									- ( w_TaxAmountPurchaseExcludedFromProRata - w_UndeducTaxExcludedFromProRata ) ) * 0.01 * w_AskProRata )  ;
+								End 
+							Else 
+								Begin
+									w_TaxProRataDeductible = ERP.Currencies.Components.CurrencyManager_TaxRounding ( w_CurrMng , ( ( w_TaxAmountPurchase + w_TaxAmountPurchaseEu - w_TaxAmountEOY - w_UndeducTaxProRata - w_UndeducTaxIntraProRata + w_PurchaseExigAmount - w_PurchaseNonExigAmount ) 
+									- ( w_TaxAmountPurchaseExcludedFromProRata - w_TaxAmountEOYExcludedFromProRata - w_UndeducTaxExcludedFromProRata ) ) * 0.01 * w_AskProRata )  ;
+								End ;
+						w_TotalAmountCreditPeriod = w_TaxProRataDeductible + w_TaxAmountA1 + w_TaxAmountA2 + w_TaxAmountA3 + w_TaxAmountA4 + w_TaxAmountPurchaseExcludedFromProRata - w_UndeducTaxExcludedFromProRata  ;
+						If ( w_AskProRata = 100 Or Not ( IsActivated ( "ERP" , "ProRata" ) ) ) 
+							Then 
+								Begin
+									w_AskProRata = 0  ;
+									w_TaxProRataDeductible = 0  ;
+								End ;
+						If ( IsActivated ( "ERP" , "ProRata" ) ) 
+							Then Display w_AskProRata ,w_Perc ;
+							Else w_TaxProRataDeductible = w_AmtAsterisk  ;
+						Eval w_TotalAmountDebitPeriod ;
+						w_TotalAmountDebitPeriod = w_TotalAmountDebitPeriod + w_SaleExigAmount - w_SaleNonExigAmount - w_SaleSplitPaymentAmount  ;
+						Eval w_TotalAmountCreditIsFinal ;
+						Eval w_TotalAmountDebitIsFinal ;
+						Eval w_TaxAmountCreditIsFinal ;
+						If w_TaxAdvanceLine == 0 
+							Then Eval w_TaxAdvanceLine ;
+						If w_TaxAmountA1 == 0 
+							Then Eval w_TaxAmountA1 ;
+						If w_TaxAmountA2 == 0 
+							Then Eval w_TaxAmountA2 ;
+						If w_TaxAmountA3 == 0 
+							Then Eval w_TaxAmountA3 ;
+						If w_TaxAmountA4 == 0 
+							Then Eval w_TaxAmountA4 ;
+						If ( w_TaxAmountV1 == 0 AND ( w_DescriV1 = "" Or w_DescriV1 = w_Asterisk ) ) 
+							Then Eval w_TaxAmountV1 ;
+						If w_TaxAmountV2 == 0 
+							Then Eval w_TaxAmountV2 ;
+						If w_TaxAmountV3 == 0 
+							Then Eval w_TaxAmountV3 ;
+						If w_TaxAmountV4 == 0 
+							Then Eval w_TaxAmountV4 ;
+						If w_TaxAmountCreditIsFinal > 0 
+							Then 
+								Begin
+									Eval w_TaxAmountCreditIsFinal ;
+									w_TaxAmountDebitIsFinal = w_AmtAsterisk  ;
+									Eval w_DescriTaxAmountCreditIsFinal ;
+								End ;
+						If w_TaxAmountCreditIsFinal <= 0 
+							Then 
+								Begin
+									Eval w_TaxAmountDebitIsFinal ;
+									w_TaxAmountCreditIsFinal = w_AmtAsterisk  ;
+									Eval w_DescriTaxAmountDebitIsFinal ;
+								End ;
+						Eval w_TaxAmountSalePurchaseEu ;
+						w_TaxAmountSale = w_TaxAmountSale - w_TaxAmountSalePurchaseEu  ;
+						If ( Not IsActivated ( "ERP" , "EuropeanUnion" ) ) 
+							Then 
+								Begin
+									w_DescriPurchasesTaxEU = w_Asterisk  ;
+									w_TaxDescriSalePurchaseEU = w_Asterisk  ;
+									w_TaxAmountPurchaseEu = w_AmtAsterisk  ;
+									w_TaxAmountSalePurchaseEu = w_AmtAsterisk  ;
+								End ;
+						Display w_DescriTaxAmountCreditIsFinal ,w_DescriTaxAmountDebitIsFinal ;
+						Display w_TaxAmountPurchase ,w_TaxAmountPurchaseEu ,w_TaxAmountEOY ,w_TaxProRataDeductible ,w_TAXDeductible ,w_CreditTax ;
+						Display w_TaxAmountSale ,w_TaxAmountSalePurchaseEu ,w_TaxAmountCorr ,w_UndeducTax ;
+						Display w_TaxAmountA1 ,w_TaxAmountA2 ,w_TaxAmountA3 ,w_TaxAmountA4 ;
+						Display w_TaxAmountV1 ,w_TaxAmountV2 ,w_TaxAmountV3 ,w_TaxAmountV4 ;
+						Display w_DebitPrevious ,w_CreditPrevious ;
+						Display w_YearDescriptionCr ,w_EsCr ,w_YearDescriptionDeb ,w_EsDeb ,w_DescriNotEsCr ,w_NotEsCr ,w_DescriNotEsDeb ,w_NotEsDeb ,w_DescriNotEsSPDeb ,w_NotEsspDeb ;
+						If ( IsActivated ( "ERP" , "Accounting_IT" ) ) 
+							Then Call w_OtherCredits ;
+						Display w_TotalAmountCreditPeriod ,w_TotalAmountDebitPeriod ,w_TotalAmountCreditIsFinal ,w_TotalAmountDebitIsFinal ;
+						If ( w_74Ter_ActCredit > 0.0 ) 
+							Then 
+								Begin
+									w_74Ter_DescriCredit = Localize ( "Actual credit cost" )  ;
+								End 
+							Else 
+								Begin
+									w_74Ter_DescriCredit = Localize ( "Gross margin" )  ;
+									w_74Ter_ActCredit = w_74Ter_GrossMargin  ;
+								End ;
+						Display w_74Ter_Sales ,w_74Ter_Purchases ,w_74Ter_PrevCredit ;
+						If ( w_AskStartMonth == w_AskEndMonth Or (w_TravelAgencyTaxSettlementByMonth == TRUE And w_AskStartMonth == 1 And w_AskEndMonth == 12 )) 
+							Then Display w_74Ter_DescriCredit ,w_74Ter_ActCredit ;
+						w_Diff = w_TotalAmountDebitIsFinal - w_TotalAmountCreditIsFinal  ;
+						w_TotalAmountACredit = w_Diff <= 0  ;
+						If ( w_Quarterly And NOT w_TotalAmountACredit And w_Interests <> 0.0 And w_Diff >= w_MinTaxPayable ) 
+							Then 
+								Begin
+									w_InterestsRound = ERP.Currencies.Components.CurrencyManager_TaxRounding ( w_CurrMng , w_Diff * w_Interests / 100 )  ;
+									w_TaxAmountDebitIsFinal = w_TaxAmountDebitIsFinal + w_InterestsRound  ;
+									w_DescriIntDebit = w_IntTrim + " " + Localize ( "(on" ) + " " + Format ( w_Diff ) + ")"  ;
+								End ;
+					End
+				Finalize 
+					Begin
+						w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryReadOne ( "CountTaxJournalSummariesTotals" )  ;
+						If ( w_Count != 0 ) 
+							Then 
+								Begin
+									w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateDescriTaxJournalSummariesTotals" )  ;
+									If ( w_AskDefPrint ) 
+										Then w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateDefPrintedTaxJournalSummariesTotals" )  ;
+								End 
+							Else 
+								Begin
+									w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "InsertDescriTaxJournalSummariesTotals" )  ;
+								End ;
+						If ( w_AskStartMonth == w_AskEndMonth And NOT w_Temporary ) 
+							Then 
+								Begin
+									If ( w_TaxAmountDebitIsFinal == w_AmtAsterisk ) 
+										Then w_TaxAmountDebitIsFinal = 0  ;
+									If ( w_TaxAmountCreditIsFinal == w_AmtAsterisk ) 
+										Then w_TaxAmountCreditIsFinal = 0  ;
+									If ( w_InterestsRound == w_AmtAsterisk ) 
+										Then w_InterestsRound = 0  ;
+									If ( w_TotalAmountDebitPeriod > w_TotalAmountCreditPeriod ) 
+										Then w_CalcDebitTax = w_TotalAmountDebitPeriod - w_TotalAmountCreditPeriod  ;
+										Else w_CalcDebitTax = 0  ;
+									If ( w_TotalAmountCreditPeriod > w_TotalAmountDebitPeriod ) 
+										Then w_CalcCreditTax = w_TotalAmountCreditPeriod - w_TotalAmountDebitPeriod  ;
+										Else w_CalcCreditTax = 0  ;
+									If ( w_AskStartMonth > 1 ) 
+										Then w_CalcCreditPrevious = w_CreditPrevious  ;
+										Else w_CalcCreditPrevious = 0  ;
+									If ( w_AskStartMonth == 1 ) 
+										Then w_CalcCreditPreviousYear = w_CreditPrevious  ;
+										Else w_CalcCreditPreviousYear = 0  ;
+									If ( w_SpecialCreditTax <> 0 ) then Call w_CheckSpecialCreditTax ;
+									w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateTaxPeriodTaxJournalSummariesTotals" )  ;
+									If ( w_VarEndMonth == 12 ) 
+										Then w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateTaxAdvance" )  ;
+								End ;
+						If ( w_ContextualHeading ) 
+							Then 
+								Begin
+									If ( w_TaxSummaryNumbering ) 
+										Then 
+											Begin
+												If ( w_Travel == FALSE ) 
+													Then w_NrPage = w_NrPage + 1  ;
+												w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateTaxJournalSummariesTotals" )  ;
+											End 
+										Else 
+											Begin
+												If w_Quarterly 
+													Then w_AskStartMonth = w_AskStartMonth * 3  ;
+												w_DisposeOk = Framework.TbWoormViewer.TbWoormViewer.QueryExecute ( "UpdateTaxJournalTotals" )  ;
+											End ;
+								End ;
+						w_DisposeOk = ERP.Currencies.Components.CurrencyManager_Dispose ( w_CurrMng )  ;
+					End
+		End
+
+	Procedures
+		Begin
+			Procedure  w_Heading 
+				Begin
+					Display w_DescriYear ;
+					Display w_NrPage ;
+				End
+
+			Procedure  w_OtherCredits 
+				Begin
+					If ( w_ExcludedCreditTax <> 0 ) 
+						Then 
+							Begin
+								w_DescriExcludedCreditTax = Localize ( "Excluded Credit Tax" )  ;
+								w_ExcludedCreditTaxPrinted = w_ExcludedCreditTax * - 1  ;
+							End Else w_ExcludedCreditTaxPrinted = w_AmtAsterisk  ;
+					If ( w_IncludedCreditTax <> 0 ) 
+						Then 
+							Begin
+								w_DescriIncludedCreditTax = Localize ( "Included Credit Tax" )  ;
+								w_IncludedCreditTaxPrinted = w_IncludedCreditTax  ;
+							End Else w_IncludedCreditTaxPrinted = w_AmtAsterisk  ;
+					If ( w_ImportedCarsTaxPaid <> 0 ) 
+						Then 
+							Begin
+								w_DescriImportedCarsTaxPaid = Localize ( "Imported Cars Tax Paid" )  ;
+								w_ImportedCarsTaxPaidPrinted = w_ImportedCarsTaxPaid  ;
+							End Else w_ImportedCarsTaxPaidPrinted = w_AmtAsterisk  ;
+					If ( w_SpecialCreditTax <> 0 ) 
+						Then 
+							Begin
+								w_DescriSpecialCreditTax = Localize ( "Special Credit Tax" )  ;
+								w_SpecialCreditTaxPrinted = w_SpecialCreditTax  ;
+							End Else w_SpecialCreditTaxPrinted = w_AmtAsterisk  ;
+					Display w_DescriExcludedCreditTax ,w_DescriIncludedCreditTax ,w_DescriImportedCarsTaxPaid ,w_DescriSpecialCreditTax ,w_ExcludedCreditTaxPrinted ,w_IncludedCreditTaxPrinted ,w_ImportedCarsTaxPaidPrinted ,w_SpecialCreditTaxPrinted ;
+				End
+
+			Procedure  w_CalculateDescriMonth 
+				Begin
+					If ( w_Quarterly ) 
+						Then 
+							Begin
+								If w_AskStartMonth == w_AskEndMonth 
+									Then 
+										Begin
+											If w_AskStartMonth == 1 
+												Then w_VarDescriMonth = Localize ( "I Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+											If w_AskStartMonth == 2 
+												Then w_VarDescriMonth = Localize ( "II Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+											If w_AskStartMonth == 3 
+												Then w_VarDescriMonth = Localize ( "III Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+											If w_AskStartMonth == 4 
+												Then w_VarDescriMonth = Localize ( "IV Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+										End ;
+								If w_AskStartMonth <> w_AskEndMonth 
+									Then 
+										Begin
+											If w_AskStartMonth == 1 
+												Then w_VarDescriMonth = Localize ( "From I Quarter" ) + " "  ;
+											If w_AskStartMonth == 2 
+												Then w_VarDescriMonth = Localize ( "From II Quarter" ) + " "  ;
+											If w_AskStartMonth == 3 
+												Then w_VarDescriMonth = Localize ( "From III Quarter" ) + " "  ;
+											If w_AskEndMonth == 2 
+												Then w_VarDescriMonth = w_VarDescriMonth + Localize ( "To II Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+											If w_AskEndMonth == 3 
+												Then w_VarDescriMonth = w_VarDescriMonth + Localize ( "To III Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+											If w_AskEndMonth == 4 
+												Then w_VarDescriMonth = w_VarDescriMonth + Localize ( "To IV Quarter" ) + " " + Str ( w_AskYear , 4 )  ;
+										End ;
+							End 
+						Else 
+							Begin
+								If w_AskStartMonth == w_AskEndMonth 
+									Then w_VarDescriMonth = MonthName ( w_AskStartMonth ) + "  " + Str ( w_AskYear , 4 )  ;
+									Else w_VarDescriMonth = "  " + Localize ( "From" ) + " " + MonthName ( w_AskStartMonth ) + "  " + Localize ( "To" ) + " " 
+									+ MonthName ( w_AskEndMonth ) + "  " + Str ( w_AskYear , 4 )  ;
+							End ;
+					w_VarDescriMonth = w_ConstTitle + w_VarDescriMonth  ;
+					Display w_VarDescriMonth ;
+				End
+			
+			Procedure  w_CheckSpecialCreditTax 
+				Begin
+					If ( w_CalcDebitTax + w_DebitPrevious - w_CalcCreditPrevious - ( w_CalcCreditPreviousYear - w_ExcludedCreditTax + w_IncludedCreditTax ) - w_ImportedCarsTaxPaid) <= 0 
+						Then 
+							Begin
+								Message Localize ( "WARNING: Special credit tax should be set only if there is Payable tax." ), "warning"   ;
+							End 
+						else
+							Begin
+								If w_SpecialCreditTax > (w_CalcDebitTax + w_DebitPrevious - w_CalcCreditPrevious - ( w_CalcCreditPreviousYear - w_ExcludedCreditTax + w_IncludedCreditTax ) - w_ImportedCarsTaxPaid ) 
+									Then
+										Begin
+											Message ( Localize ( "WARNING: Special credit Tax (" ) + format (w_SpecialCreditTax) + Localize ( ") is higher than Payable Tax (" ) + format (w_CalcDebitTax + w_DebitPrevious - w_CalcCreditPrevious - ( w_CalcCreditPreviousYear - w_ExcludedCreditTax + w_IncludedCreditTax ) - w_ImportedCarsTaxPaid) + ")" ), "warning"  ;
+										End ;
+							End ;
+				End
+
+		End
+
+	Queries
+		Begin
+			Query  CountTaxJournalSummariesTotals
+			Begin
+				{
+					SELECT 
+					Count ( * ) { COL w_Count } 
+					From MA_TaxJournalSummariesTotals 
+					WHERE BalanceYear = { IN w_AskYear } And Period = { IN w_AskStartMonth }
+				}
+			End
+
+			Query  UpdateTaxJournalSummariesTotals
+			Begin
+				{
+					UPDATE MA_TaxJournalSummariesTotals 
+					SET LastPage = { IN w_NrPage } 
+					WHERE BalanceYear = { IN w_AskYear } And Period = { IN w_AskStartMonth }
+				}
+			End
+
+			Query  UpdateTaxJournalTotals
+			Begin
+				{
+					UPDATE MA_TaxJournalTotals 
+					SET LastPage = { IN w_NrPage } 
+					WHERE BalanceYear = { IN w_AskYear } And BalanceMonth = { IN w_AskStartMonth } And 
+					TaxJournal = { IN w_TaxSummaryJournal }
+				}
+			End
+
+			Query  UpdateDescriTaxJournalSummariesTotals
+			Begin
+				{
+					UPDATE MA_TaxJournalSummariesTotals 
+					SET PaymentDetails = { IN w_DescriFree } 
+					WHERE BalanceYear = { IN w_AskYear } And Period = { IN w_AskStartMonth }
+				}
+			End
+
+			Query  UpdateDefPrintedTaxJournalSummariesTotals
+			Begin
+				{
+					UPDATE MA_TaxJournalSummariesTotals 
+					SET DefinitivelyPrinted = { IN w_AskDefPrint } 
+					WHERE BalanceYear = { IN w_AskYear } And Period = { IN w_AskStartMonth }
+				}
+			End
+
+			Query  InsertDescriTaxJournalSummariesTotals
+			Begin
+				{
+					INSERT INTO MA_TaxJournalSummariesTotals 
+					( BalanceYear , Period , PaymentDetails , DefinitivelyPrinted ) 
+					VALUES ( { IN w_AskYear } , { IN w_AskStartMonth } , { IN w_DescriFree } , { IN w_AskDefPrint } )
+				}
+			End
+
+			Query  UpdateTaxPeriodTaxJournalSummariesTotals
+			Begin
+				{
+					UPDATE MA_TaxJournalSummariesTotals 
+					SET DebitTaxPeriod = { IN w_TaxAmountDebitIsFinal } , 
+					CreditTaxPeriod = { IN w_TaxAmountCreditIsFinal } , 
+					ExigibleTax = { IN w_TotalAmountDebitPeriod } , 
+					DeductibleTax = { IN w_TotalAmountCreditPeriod } , 
+					DebitTax = { IN w_CalcDebitTax } , 
+					CreditTax = { IN w_CalcCreditTax } , 
+					PreviousDebitTax = { IN w_DebitPrevious } , 
+					PreviousCreditTax = { IN w_CalcCreditPrevious } , 
+					PreviousYearCreditTax = { IN w_CalcCreditPreviousYear } , 
+					ExcludedCreditTax = { IN w_ExcludedCreditTax } , 
+					IncludedCreditTax = { IN w_IncludedCreditTax } , 
+					SpecialCreditTax = { IN w_SpecialCreditTax } , 
+					ImportedCarsTaxPaid = { IN w_ImportedCarsTaxPaid } , 
+					Interests = { IN w_InterestsRound } 
+					WHERE BalanceYear = { IN w_AskYear } And Period = { IN w_AskStartMonth }
+				}
+			End
+
+			Query  UpdateTaxAdvance
+			Begin
+				{
+					UPDATE MA_CompanyYears 
+					SET TaxAdvance = { IN w_TaxAdvance } , 
+					TaxAdvanceDescri = { IN w_TaxAdvanceDescri } 
+					WHERE BalanceYear = { IN w_AskYear }
+				}
+			End
+
+		End
+End
+
